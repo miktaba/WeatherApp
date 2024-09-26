@@ -11,19 +11,11 @@ import CoreLocationUI
 struct WelcomeView: View {
     @EnvironmentObject var locationManager: LocationManager
     
-    
     var body: some View {
-//        ZStack {
-//            Color(.blue)
-//            LinearGradient(
-//                gradient: Gradient(
-//                    colors: [.blue, .green, .blue]
-//                ),
-//                startPoint: .topTrailing,
-//                endPoint: .bottomLeading
-//            )
-//            
-//            .edgesIgnoringSafeArea(.all)
+        
+        ZStack {
+            BackgroundViewTest(isNight: false)
+
             VStack {
                 VStack(spacing: 20) {
                     Text("Welcome to the weather app")
@@ -41,9 +33,11 @@ struct WelcomeView: View {
                 .symbolVariant(.fill)
                 .foregroundColor(.white)
             }
+        
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-    // }
+    
+    }
 }
 
 #Preview {
