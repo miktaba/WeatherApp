@@ -26,8 +26,8 @@ struct WeatherView: View {
                 VStack (alignment: .leading) {
                     VStack(alignment: .leading) {
                         VStack{
-                            // getWeatherIcon(for: weather.weather[0].main)
-                            Image(systemName: "cloud")
+                            getWeatherIcon(for: weather.weather[0].main)
+                            // Image(systemName: "cloud")
                                 .font(.system(size: 50))
                             Text(weather.weather[0].main)
                                 .font(.system(size: 20))
@@ -55,12 +55,8 @@ struct WeatherView: View {
                         
    
                     }
-                    Spacer()
                     
                     VStack {
-                        Spacer()
-                            .frame(height: 10)
-                        
                         AsyncImage(url: URL(string: "https://www.globtourmontenegro.com/inc/img/cities/1456-montenegro_cities_podgorica3.jpg")) { image in image
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -69,9 +65,6 @@ struct WeatherView: View {
                         } placeholder: {
                             ProgressView()
                         }
-                        .padding(.bottom)
-                        
-                       
                         
                         Spacer()
                         
@@ -85,11 +78,6 @@ struct WeatherView: View {
             
             VStack {
                 Spacer()
-                
-                WeatherButton(title: "Refresh", textColor: .black, backgroundColor: .white) {
-                }
-                .padding(.bottom, 10)
-                
                 VStack(alignment: .leading, spacing: 20) {
                     Text("Details on today's weather")
                         .bold().padding(.bottom)
