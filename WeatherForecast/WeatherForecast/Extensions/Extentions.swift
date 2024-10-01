@@ -20,7 +20,6 @@ extension View {
     }
 }
 
-
 struct RoundedCorner: Shape {
     var corners: UIRectCorner = .allCorners
     var radius: CGFloat = .infinity

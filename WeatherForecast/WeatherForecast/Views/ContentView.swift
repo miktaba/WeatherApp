@@ -10,13 +10,19 @@ import SwiftUI
 struct ContentView: View {
     
     @StateObject var locationManager = LocationManager()
-    @State var isNight = false
     var weatherManager = WeatherManager()
+    
+    @Environment(\.colorScheme) var colorScheme
+
     @State var weather: ResponseBody?
     
     var body: some View {
         ZStack {
-            isNight ? BackgroundViewTest(isNight: true): BackgroundViewTest(isNight: false)
+            if colorScheme == .dark {
+                MeshGradientBackground(isNight: true)
+            } else {
+                MeshGradientBackground(isNight: false)
+            }
             
             VStack{
                 if let location = locationManager.location {

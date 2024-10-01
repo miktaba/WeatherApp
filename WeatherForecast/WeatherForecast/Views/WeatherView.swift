@@ -11,13 +11,17 @@ struct WeatherView: View {
     @EnvironmentObject var locationManager: LocationManager
     @StateObject var weatherManager = WeatherManager()
     
-    var weather: ResponseBody
+    @Environment(\.colorScheme) var colorScheme
     
+    var weather: ResponseBody
     
     var body: some View {
         ZStack {
-            BackgroundViewTest(isNight: false)
-            
+            if colorScheme == .dark {
+                MeshGradientBackground(isNight: true)
+            } else {
+                MeshGradientBackground(isNight: false)
+            }
             ZStack(alignment: .leading) {
                 VStack (alignment: .leading) {
                     VStack(alignment: .leading) {

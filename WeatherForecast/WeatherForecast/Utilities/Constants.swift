@@ -14,6 +14,4 @@ enum SFSymbols {
     static let snow = Image(systemName: "cloud.snow")
     static let thunder = Image(systemName: "cloud.sun.bolt")
     static let placrholder = Image(systemName: "x.circle")
-    
-    static let location = Image(systemName: "location.fill")
 }
