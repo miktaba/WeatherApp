@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum WAErorr: String, Error {
+enum WAError: String, Error {
     case invalidURL = "Missing URL."
     case invalidResponse = "Invalid response from server. Please try again."
     case invalidData = "The data recived from the server was invalid. Please try again."

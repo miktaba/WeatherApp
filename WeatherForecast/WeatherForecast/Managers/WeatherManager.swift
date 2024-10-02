@@ -27,7 +27,7 @@ class WeatherManager: ObservableObject {
         
         guard let url = URL(string: endpoint) else {
             isLoading = false
-            throw WAErorr.invalidURL
+            throw WAError.invalidURL
         }
         
         let urlRequest = URLRequest(url: url)
@@ -35,12 +35,12 @@ class WeatherManager: ObservableObject {
         let (data, response) = try await URLSession.shared.data(for: urlRequest)
         
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-            throw WAErorr.invalidResponse
+            throw WAError.invalidResponse
         }
         do {
             return try decoder.decode(ResponseBody.self, from: data)
         } catch {
-            throw WAErorr.invalidData
+            throw WAError.invalidData
         }
     }
 }

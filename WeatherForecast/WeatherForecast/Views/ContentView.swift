@@ -13,8 +13,9 @@ struct ContentView: View {
     var weatherManager = WeatherManager()
     
     @Environment(\.colorScheme) var colorScheme
-
+    
     @State var weather: ResponseBody?
+    @State var placePhoto: UnsplashPhoto?
     
     var body: some View {
         ZStack {
@@ -26,15 +27,21 @@ struct ContentView: View {
             
             VStack{
                 if let location = locationManager.location {
-                    if let weather = weather {
-                        WeatherView(weather: weather)
+                    if let weather = weather, let placePhoto = placePhoto {
+                        WeatherView(weather: weather, placePhoto: placePhoto)
                     } else {
                         LoadingView()
                             .task {
                                 do {
                                     weather = try await weatherManager.getCurrentWeather(latitude: location.latitude, longitude: location.longitude)
+                                    
+                                    if let placeName = weather?.name {
+                                        let imageManager = ImageManager()
+                                        placePhoto = try await imageManager.fetchPhotos(for: placeName)
+                                    }
+                                    
                                 } catch {
-                                    print("Error getting weather: \(error)")
+                                    print("Error getting weather or photo.")
                                 }
                             }
                     }

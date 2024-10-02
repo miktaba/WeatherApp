@@ -10,10 +10,12 @@ import SwiftUI
 struct WeatherView: View {
     @EnvironmentObject var locationManager: LocationManager
     @StateObject var weatherManager = WeatherManager()
+    @StateObject var imageManager = ImageManager()
     
     @Environment(\.colorScheme) var colorScheme
     
     var weather: ResponseBody
+    var placePhoto: UnsplashPhoto
     
     var body: some View {
         ZStack {
@@ -27,7 +29,7 @@ struct WeatherView: View {
                     VStack(alignment: .leading) {
                         VStack{
                             getWeatherIcon(for: weather.weather[0].main)
-                            // Image(systemName: "cloud")
+                            //Image(systemName: "cloud")
                                 .font(.system(size: 50))
                             Text(weather.weather[0].main)
                                 .font(.system(size: 20))
@@ -53,23 +55,52 @@ struct WeatherView: View {
                         .padding(.leading)
                         
                         
-   
+                        
                     }
                     
                     VStack {
-                        AsyncImage(url: URL(string: "https://www.globtourmontenegro.com/inc/img/cities/1456-montenegro_cities_podgorica3.jpg")) { image in image
+                        if let photo = imageManager.photo {
+                            AsyncImage(url: URL(string: photo.urls.regular)) { image in image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 350, height: 250)
+                                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                                    .overlay(RoundedRectangle(cornerRadius: 20)
+                                        .stroke(Color.white, lineWidth: 2)
+                                    )
+                            } placeholder: {ProgressView()
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                            }
+                            .frame(width: 350, height: 250)
+                            
+                        } else {
+                            Image(.placeholder)
                                 .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(height: 250)
-                                .cornerRadius(10)
-                        } placeholder: {
-                            ProgressView()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 350, height: 250)
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                .overlay(RoundedRectangle(cornerRadius: 20)
+                                    .stroke(Color.white, lineWidth: 2)
+                                )
                         }
                         
-                        Spacer()
-                        
                     }
-                    .frame(maxWidth: .infinity)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    Spacer()
+                    
+                        .onAppear{
+                            Task {
+                                do {
+                                    let photo = try await  imageManager.fetchPhotos(for: weather.name)
+                                    DispatchQueue.main.async {
+                                        imageManager.photo = photo
+                                    }
+                                } catch {
+                                    print("Error fetching photo.")
+                                }
+                            }
+                        }
                     
                 }
                 .padding()
@@ -112,5 +143,5 @@ struct WeatherView: View {
 
 
 #Preview {
-    WeatherView(weather: previewWeather)
+    WeatherView(weather: previewWeather, placePhoto: previewPhoto)
 }
