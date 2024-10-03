@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct MeshGradientBackground: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     @State var isAnimating = false
-    var isNight: Bool
+    
+    private var isNight: Bool {
+        colorScheme == .dark
+    }
     
     var body: some View {
         if #available(iOS 18, *) {
@@ -22,11 +27,7 @@ struct MeshGradientBackground: View {
                 colorSpace: .perceptual
             )
             .edgesIgnoringSafeArea(.all)
-            .onAppear {
-                withAnimation(.easeOut(duration: 5).repeatForever(autoreverses: true)) {
-                    isAnimating = true
-                }
-            }
+            
         } else {
             fallbackView
         }
@@ -35,7 +36,7 @@ struct MeshGradientBackground: View {
     var fallbackView: some View {
         LinearGradient(
             gradient: Gradient(
-                colors: isNight ? [.black, .gray, .white] : [.blue, .green, Color("lightBlue")]
+                colors: isNight ? [.black, .gray, .white] : [.blue, .green, .white]
             ),
             startPoint: .topTrailing,
             endPoint: .bottomLeading
@@ -73,13 +74,13 @@ struct MeshGradientBackground: View {
     
     private func darkGradientColors() -> [Color] {
         return [
-            .brown, .gray, isAnimating ? .gray : .brown,
-            .gray, isAnimating ? .gray : .brown, .gray,
-            isAnimating ? .gray : .gray, .brown, .gray
+            .lightBlue, .gray, isAnimating ? .lightBlue : .gray,
+            .gray, isAnimating ? .lightBlue : .gray, .gray,
+            .gray, .gray, isAnimating ? .lightBlue : .gray
         ]
     }
 }
 
 #Preview {
-    MeshGradientBackground(isNight: true)
+    MeshGradientBackground()
 }

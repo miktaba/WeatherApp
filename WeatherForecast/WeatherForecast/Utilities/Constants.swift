@@ -9,7 +9,7 @@ import SwiftUI
 
 enum SFSymbols {
     static let clear = Image(systemName: "sun.max")
-    static let cloudy = Image(systemName: "scloud")
+    static let cloudy = Image(systemName: "cloud")
     static let rainy = Image(systemName: "cloud.drizzle")
     static let snow = Image(systemName: "cloud.snow")
     static let thunder = Image(systemName: "cloud.sun.bolt")

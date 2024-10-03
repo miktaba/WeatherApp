@@ -8,23 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     @StateObject var locationManager = LocationManager()
-    var weatherManager = WeatherManager()
-    
-    @Environment(\.colorScheme) var colorScheme
     
     @State var weather: ResponseBody?
     @State var placePhoto: UnsplashPhoto?
     
+    var weatherManager = WeatherManager()
+    
     var body: some View {
         ZStack {
-            if colorScheme == .dark {
-                MeshGradientBackground(isNight: true)
-            } else {
-                MeshGradientBackground(isNight: false)
-            }
-            
             VStack{
                 if let location = locationManager.location {
                     if let weather = weather, let placePhoto = placePhoto {
@@ -55,6 +47,9 @@ struct ContentView: View {
                 }
             }
         }
+        .background(
+                MeshGradientBackground()
+            )
     }
 }
 

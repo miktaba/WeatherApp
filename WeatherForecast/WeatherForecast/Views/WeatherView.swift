@@ -12,69 +12,47 @@ struct WeatherView: View {
     @StateObject var weatherManager = WeatherManager()
     @StateObject var imageManager = ImageManager()
     
-    @Environment(\.colorScheme) var colorScheme
-    
-    var weather: ResponseBody
-    var placePhoto: UnsplashPhoto
+    var weather: ResponseBody?
+    var placePhoto: UnsplashPhoto?
     
     var body: some View {
         ZStack {
-            if colorScheme == .dark {
-                MeshGradientBackground(isNight: true)
-            } else {
-                MeshGradientBackground(isNight: false)
-            }
-            ZStack(alignment: .leading) {
-                VStack (alignment: .leading) {
-                    VStack(alignment: .leading) {
-                        VStack{
-                            getWeatherIcon(for: weather.weather[0].main)
-                            //Image(systemName: "cloud")
-                                .font(.system(size: 50))
-                            Text(weather.weather[0].main)
-                                .font(.system(size: 20))
-                        }
-                        .padding(.leading)
+            VStack (alignment: .leading) {
+                VStack(alignment: .leading) {
+                    VStack{
+                        getWeatherIcon(for: weather?.weather[0].main ?? "Clouds")
+                            .font(.system(size: 50))
                         
-                        HStack {
-                            Text(weather.main.feelsLike.roundDouble() + "°")
-                                .font(.system(size: 70))
-                                .fontWeight(.bold)
+                        Text(weather?.weather[0].main ?? "none")
+                            .font(.system(size: 20))
+                    }
+                    .padding(.leading)
+                    
+                    HStack {
+                        Text((weather?.main.feelsLike.roundDouble() ?? "none") + "°")
+                            .font(.system(size: 70))
+                            .fontWeight(.bold)
+                        
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text(weather?.name ?? "An unknown place")
+                                .bold().font(.title)
                             
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(weather.name)
-                                    .bold().font(.title)
-                                
-                                Text("Today, \(Date().formatted(.dateTime.day().month().hour()))")
-                                    .fontWeight(.light)
-                                
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                            Text("Today, \(Date().formatted(.dateTime.day().month().hour()))")
+                                .fontWeight(.light)
+                            
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.leading)
-                        
-                        
-                        
                     }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading)
                     
-                    VStack {
-                        if let photo = imageManager.photo {
-                            AsyncImage(url: URL(string: photo.urls.regular)) { image in image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 350, height: 250)
-                                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                                    .overlay(RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color.white, lineWidth: 2)
-                                    )
-                            } placeholder: {ProgressView()
-                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                            }
-                            .frame(width: 350, height: 250)
-                            
-                        } else {
-                            Image(.placeholder)
+                    
+                    
+                }
+                
+                VStack {
+                    if let placePhoto = placePhoto {
+                        AsyncImage(url: URL(string: placePhoto.urls.regular)) { image in image
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 350, height: 250)
@@ -82,30 +60,29 @@ struct WeatherView: View {
                                 .overlay(RoundedRectangle(cornerRadius: 20)
                                     .stroke(Color.white, lineWidth: 2)
                                 )
+                        } placeholder: {ProgressView()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                         }
+                        .frame(width: 350, height: 250)
                         
+                    } else {
+                        Image(.placeholder)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 350, height: 250)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                            .overlay(RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color.white, lineWidth: 2)
+                            )
                     }
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    
-                    Spacer()
-                    
-                        .onAppear{
-                            Task {
-                                do {
-                                    let photo = try await  imageManager.fetchPhotos(for: weather.name)
-                                    DispatchQueue.main.async {
-                                        imageManager.photo = photo
-                                    }
-                                } catch {
-                                    print("Error fetching photo.")
-                                }
-                            }
-                        }
-                    
                 }
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .center)
+                
+                Spacer()
+                
             }
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
             
             VStack {
                 Spacer()
@@ -114,16 +91,16 @@ struct WeatherView: View {
                         .bold().padding(.bottom)
                     HStack {
                         VStack(alignment: .leading) {
-                            WeatherRow(logoWeather: "thermometer.high", name: "Max temp", tempValue: weather.main.tempMax.roundDouble() + "°")
+                            WeatherRow(logoWeather: "thermometer.high", name: "Max temp", tempValue: (weather?.main.tempMax.roundDouble() ?? "none") + "°")
                             
-                            WeatherRow(logoWeather: "thermometer.low", name: "Min temp", tempValue: weather.main.tempMin.roundDouble() + "°")
+                            WeatherRow(logoWeather: "thermometer.low", name: "Min temp", tempValue: (weather?.main.tempMin.roundDouble() ?? "none") + "°")
                         }
                         Spacer()
                         
                         VStack(alignment: .leading) {
-                            WeatherRow(logoWeather: "wind", name: "Wind speed", tempValue: weather.wind.speed.roundDouble() + "m/s")
+                            WeatherRow(logoWeather: "wind", name: "Wind speed", tempValue: (weather?.wind.speed.roundDouble() ?? "none") + "m/s")
                             
-                            WeatherRow(logoWeather: "humidity.fill", name: "Humidity", tempValue: weather.main.humidity.roundDouble() + "%")
+                            WeatherRow(logoWeather: "humidity.fill", name: "Humidity", tempValue: (weather?.main.humidity.roundDouble() ?? "none") + "%")
                         }
                     }
                 }
@@ -135,9 +112,11 @@ struct WeatherView: View {
                 .cornerRadius(20, corners: [.topLeft, .topRight])
             }
             
+            .ignoresSafeArea(edges: .bottom)
         }
-        .ignoresSafeArea(edges: .bottom)
-        .preferredColorScheme(.dark)
+        .background(
+                MeshGradientBackground()
+            )
     }
 }
 

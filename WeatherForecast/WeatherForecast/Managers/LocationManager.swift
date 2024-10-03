@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-    let manager = CLLocationManager()
+    private let manager = CLLocationManager()
     
     @Published var location: CLLocationCoordinate2D?
     @Published var isLoading = false
@@ -18,6 +18,10 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     override init() {
         super.init()
         manager.delegate = self
+    }
+    
+    private func requestWhenInUseAuthorization() {
+            manager.requestWhenInUseAuthorization()
     }
     
     func requestLocation() {
@@ -31,7 +35,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
-        print("Errror getting location", error)
+        print("Errror getting location: \(error.localizedDescription)")
         isLoading = false
     }
 }
