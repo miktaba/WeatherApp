@@ -27,6 +27,9 @@ struct MeshGradientBackground: View {
                 colorSpace: .perceptual
             )
             .edgesIgnoringSafeArea(.all)
+            .onAppear {
+                startAnimation()
+            }
             
         } else {
             fallbackView
@@ -42,6 +45,14 @@ struct MeshGradientBackground: View {
             endPoint: .bottomLeading
         )
         .edgesIgnoringSafeArea(.all)
+    }
+    
+    private func startAnimation() {
+        Timer.scheduledTimer(withTimeInterval: 6.0, repeats: true) { _ in
+            withAnimation(.easeInOut(duration: 10.0)) {
+                isAnimating.toggle()
+            }
+        }
     }
     
     
