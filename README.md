@@ -1,5 +1,6 @@
 # WeatherApp
-During the development of this application, I gained  experience in integrating APIs and refined my proficiency in SwiftUI. <br>
+During the development of this application, I gained  experience in integrating APIs <br>
+and refined my proficiency in SwiftUI. <br>
 The application displays the current weather forecast and a randomly selected photograph of the user’s location. <br>
 
 <img src="https://github.com/user-attachments/assets/7e0ef6b4-c933-4f00-9bf8-10dcabf31b91" width="20%" height="20%"/>  <br>
