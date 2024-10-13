@@ -15,7 +15,7 @@ The application displays the current weather forecast and a randomly selected ph
 **Screenshots:** <br>
 
 <p float="left">
-<img src="https://github.com/user-attachments/assets/c2fe09f5-82bc-4311-be88-fe927dbccc28" width=400" />
+<img src="https://github.com/user-attachments/assets/c2fe09f5-82bc-4311-be88-fe927dbccc28" width=180" />
 </p>
 
 <p float="left">
