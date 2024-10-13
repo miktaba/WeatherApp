@@ -58,6 +58,8 @@ func getWeatherIcon(for main: String) -> Image {
         return SFSymbols.snow
     case "Thunderstorm":
         return SFSymbols.thunder
+    case "Drizzle":
+        return SFSymbols.drizzle
     default:
         return SFSymbols.placrholder
     }
