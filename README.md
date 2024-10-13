@@ -19,9 +19,9 @@ The application displays the current weather forecast and a randomly selected ph
 </p>
 
 <p float="left">
-  <img src="https://github.com/user-attachments/assets/23507dae-04c5-4263-952a-c4125ac6ae22" width=200" />
-  <img src="https://github.com/user-attachments/assets/a08156c4-5857-4e41-8bcb-f8c0fbf645f7" width="200" /> 
-  <img src="https://github.com/user-attachments/assets/dc2254fb-8745-467d-a7fb-c1827c54bdf4" width="200" />
-  <img src="https://github.com/user-attachments/assets/5b93f1ff-2390-4a43-aabe-2b970212cd7a" width="200" />
+  <img src="https://github.com/user-attachments/assets/23507dae-04c5-4263-952a-c4125ac6ae22" width=180" />
+  <img src="https://github.com/user-attachments/assets/a08156c4-5857-4e41-8bcb-f8c0fbf645f7" width="180" /> 
+  <img src="https://github.com/user-attachments/assets/dc2254fb-8745-467d-a7fb-c1827c54bdf4" width="180" />
+  <img src="https://github.com/user-attachments/assets/5b93f1ff-2390-4a43-aabe-2b970212cd7a" width="180" />
 </p>
 
