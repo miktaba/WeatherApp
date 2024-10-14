@@ -5,7 +5,7 @@ The application displays the current weather forecast and a randomly selected ph
 
 <img src="https://github.com/user-attachments/assets/7e0ef6b4-c933-4f00-9bf8-10dcabf31b91" width="20%" height="20%"/>  <br>
 
-- CLLocationManager to determine the device’s location;
+- Core Location framework to determine the device’s location;
 - Mesh Gradient and its animation capabilities. The background display is dependent on the iOS version;
 - Practiced creating application icons using Inkscape.
 
